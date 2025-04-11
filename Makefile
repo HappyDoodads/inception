@@ -1,12 +1,12 @@
 DOCKER_COMPOSE = docker compose
 COMPOSE_FILE = ./srcs/docker-compose.yml
-SQL_VOL = /home/jdemers/data/mysql
+DB_VOL = /home/jdemers/data/mariadb
 WP_VOL = /home/jdemers/data/wordpress
 
 all: build
 
 build:
-	@mkdir -p $(SQL_VOL)
+	@mkdir -p $(DB_VOL)
 	@mkdir -p $(WP_VOL)
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up --build --detach
 
@@ -20,7 +20,7 @@ clean:
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down -v
 
 fclean: clean
-	rm -r $(SQL_VOL)
+	rm -r $(DB_VOL)
 	rm -r $(WP_VOL)
 	docker system prune -af
 

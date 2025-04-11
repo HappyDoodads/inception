@@ -1,7 +1,7 @@
 FROM debian:buster
 
-RUN apt update; \
-	apt install -y nginx openssl
+RUN apt-get update -y; \
+	apt-get install -y nginx openssl
 
 RUN mkdir -p /etc/nginx/ssl
 RUN openssl req -x509 -nodes \
@@ -11,7 +11,7 @@ RUN openssl req -x509 -nodes \
 
 COPY conf/default /etc/nginx/sites-enabled/default
 
-RUN	chmod 755 /var/www/wordpress
-RUN chown -R www-data:www-data /var/www/wordpress
+# RUN	chmod 755 /var/www/wordpress
+# RUN chown -R www-data:www-data /var/www/wordpress
 
 CMD [ "nginx", "-g", "daemon off;" ]
