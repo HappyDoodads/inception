@@ -1,0 +1,64 @@
+version: "3.7"
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    image: mariadb
+    networks:
+      - inception
+    env_file:
+      - /home/jdemers/Desktop/.inception_env
+    volumes:
+      - mariadb:/var/lib/mysql
+    expose:
+      - "3306"
+    restart: unless-stopped
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: worpress
+    image: wordpress
+    networks:
+      - inception
+    env_file:
+      - /home/jdemers/Desktop/.inception_env
+    volumes:
+      - wordpress:/var/www/wordpress
+    depends_on:
+      - mariadb
+    expose:
+      - "9000"
+    restart: on-failure
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    image: nginx
+    networks:
+      - inception
+    env_file:
+      - /home/jdemers/Desktop/.inception_env
+    volumes:
+      - wordpress:/var/www/wordpress
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    restart: on-failure
+
+volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/jdemers/data/wordpress'
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/jdemers/data/mariadb'
+
+networks:
+  inception:
+    driver: bridge
