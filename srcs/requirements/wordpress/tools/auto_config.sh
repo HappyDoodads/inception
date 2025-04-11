@@ -1,0 +1,33 @@
+#!bin/bash
+
+sleep 10
+
+if [ ! -f wp-config.php ]; then
+	# Install wordpress
+	wp core download https://fr.wordpress.org/wordpress-6.7-fr_FR.tar.gz \
+		--allow-root \
+		# --path='/var/www/wordpress'
+
+	wp config create --allow-root --skip-check \
+		--dbname=$SQL_DATABASE \
+		--dbuser=$SQL_USER \
+		--dbpass=$SQL_PASSWORD \
+		--dbhost=mariadb:3306 \
+		# --path='/var/www/wordpress'
+
+	wp core install --allow-root \
+		--url=jdemers.42.fr \
+		--title=Inception \
+		--admin-user=$WP_ADMIN \
+		--admin_password=$WP_ADMIN_PASSWORD \
+		--admin_email=$WP_ADMIN_EMAIL --skip-email
+
+	wp user create $WP_USER $WP_USER_EMAIL \
+		--allow-root \
+		--role=author \
+		--user-pass=$WP_USER_PASSWORD
+
+	wp theme install twentysixteen --activate
+fi
+
+/usr/sbin/php-fpm7.3 -F
