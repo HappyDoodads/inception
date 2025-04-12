@@ -10,6 +10,9 @@ build:
 	@mkdir -p $(WP_VOL)
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up --build --detach
 
+debug: build
+	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) logs -f
+
 down:
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down
 
@@ -20,8 +23,8 @@ clean:
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down -v
 
 fclean: clean
-	rm -r $(DB_VOL)
-	rm -r $(WP_VOL)
+	sudo rm -rf $(DB_VOL)
+	sudo rm -rf $(WP_VOL)
 	docker system prune -af
 
 restart: clean build
