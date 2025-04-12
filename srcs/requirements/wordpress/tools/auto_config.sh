@@ -18,16 +18,16 @@ if [ ! -f wp-config.php ]; then
 	wp core install --allow-root \
 		--url=jdemers.42.fr \
 		--title=Inception \
-		--admin-user=$WP_ADMIN \
+		--admin_user=$WP_ADMIN \
 		--admin_password=$WP_ADMIN_PASSWORD \
 		--admin_email=$WP_ADMIN_EMAIL --skip-email
 
 	wp user create $WP_USER $WP_USER_EMAIL \
 		--allow-root \
 		--role=author \
-		--user-pass=$WP_USER_PASSWORD
+		--user_pass=$WP_USER_PASSWORD
 
-	wp theme install twentysixteen --activate
+	# wp theme install twentysixteen --activate
 fi
 
 /usr/sbin/php-fpm7.3 -F
