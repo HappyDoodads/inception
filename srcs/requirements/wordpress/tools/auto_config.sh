@@ -27,7 +27,10 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 		--role=author \
 		--user_pass=$WP_USER_PASSWORD
 
-	# wp theme install twentysixteen --activate
+	wp theme install rufous \
+		--allow-root \
+		--activate \
+		--path='/var/www/wordpress'
 fi
 
 /usr/sbin/php-fpm7.3 -F
