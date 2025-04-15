@@ -1,13 +1,17 @@
+# Default server configuration
+#
 server
 {
+	server_name jdemers.42.fr;
 	listen 443 ssl;
-	ssl_protocols TLSv1.2 TLSv1.3;
-	ssl_certificate /etc/nginx/ssl/inception.crt;
+	listen [::]:443 ssl;
+
+	ssl_protocols		TLSv1.2 TLSv1.3;
+	ssl_certificate		/etc/nginx/ssl/inception.crt;
 	ssl_certificate_key /etc/nginx/ssl/inception.key;
 
 	root /var/www/wordpress;
 	index index.php;
-	server_name jdemers.42.fr;
 
 	location / 
 	{
