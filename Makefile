@@ -4,9 +4,9 @@ DB_VOL = /home/jdemers/data/mariadb
 WP_VOL = /home/jdemers/data/wordpress
 TARGET = undefined
 
-all: build
+all: up
 
-build:
+up:
 	@mkdir -p $(DB_VOL)
 	@mkdir -p $(WP_VOL)
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up --build --detach
@@ -14,7 +14,7 @@ build:
 bash:
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) exec $(TARGET) bash
 
-debug: build
+logs:
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) logs -f
 
 down:
@@ -26,11 +26,13 @@ kill:
 clean:
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) down -v
 
-fclean: clean
+rm_volumes: clean
 	sudo rm -rf $(DB_VOL)
 	sudo rm -rf $(WP_VOL)
-	docker system prune -af
 
-restart: clean build
+fclean: rm_volumes
+	@docker system prune -af
 
-.PHONY: all build down kill clean fclean restart
+restart: clean up
+
+.PHONY: all up bash logs down kill clean rm_volumes fclean restart
