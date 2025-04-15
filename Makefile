@@ -2,6 +2,7 @@ DOCKER_COMPOSE = docker compose
 COMPOSE_FILE = ./srcs/docker-compose.yml
 DB_VOL = /home/jdemers/data/mariadb
 WP_VOL = /home/jdemers/data/wordpress
+TARGET = undefined
 
 all: build
 
@@ -9,6 +10,9 @@ build:
 	@mkdir -p $(DB_VOL)
 	@mkdir -p $(WP_VOL)
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) up --build --detach
+
+bash:
+	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) exec $(TARGET) bash
 
 debug: build
 	@$(DOCKER_COMPOSE) -f $(COMPOSE_FILE) logs -f
