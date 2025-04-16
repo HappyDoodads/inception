@@ -1,6 +1,9 @@
 #!/bin/bash
 
-if [ ! -d "/var/lib/mysql/$SQL_DATABASE" ]; then
+if [ -d "/var/lib/mysql/$SQL_DATABASE" ]
+then
+	echo "Database $SQL_DATABASE already exists, skipping setup."
+else
 	service mysql start
 
 	mysql -u root -e "SET PASSWORD FOR root@localhost = PASSWORD(\"${SQL_ROOT_PASSWORD}\");"
@@ -11,4 +14,4 @@ if [ ! -d "/var/lib/mysql/$SQL_DATABASE" ]; then
 	mysqladmin -uroot -p$SQL_ROOT_PASSWORD shutdown
 fi
 
-exec mysqld_safe
+exec "$@"

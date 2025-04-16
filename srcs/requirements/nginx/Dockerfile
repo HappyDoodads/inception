@@ -11,9 +11,6 @@ RUN openssl req -x509 -nodes \
 
 COPY conf/default /etc/nginx/sites-enabled/default
 
-# RUN	chmod 755 /var/www/wordpress
-# RUN chown -R www-data:www-data /var/www/wordpress
-
 EXPOSE 443
 
-CMD [ "nginx", "-g", "daemon off;" ]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]

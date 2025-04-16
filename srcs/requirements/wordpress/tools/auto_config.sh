@@ -2,7 +2,10 @@
 
 sleep 10
 
-if [ ! -f /var/www/wordpress/wp-config.php ]; then
+if [ -f /var/www/wordpress/wp-config.php ]
+then
+	echo "Wordpress already installed, skipping setup."
+else
 	# Install wordpress
 	wp core download https://fr.wordpress.org/wordpress-6.7-fr_FR.tar.gz \
 		--allow-root \
@@ -31,4 +34,4 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 		--path='/var/www/wordpress'
 fi
 
-/usr/sbin/php-fpm7.3 -F
+exec "$@"
