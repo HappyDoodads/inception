@@ -41,8 +41,21 @@ services:
       - wordpress:/var/www/wordpress
     depends_on:
       - wordpress
+      - adminer
     ports:
       - "443:443"
+    restart: on-failure
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    image: adminer
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+      - wordpress
+    ports:
+      - "9000"
     restart: on-failure
 
 volumes:
